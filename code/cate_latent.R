@@ -5,6 +5,7 @@ library(mvrtn)
 library(MultinomialCI)
 library(xtable)
 ###########################################
+load("data/functions.RData")
 load("data/catelatentr0.RData")
 load("data/catelatentr15.RData")
 load("data/catelatentr2.RData")

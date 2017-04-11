@@ -1,4 +1,4 @@
-# Developing Tests for Network Dependence
+# Framingham Heart Study
 
 - provides code/figure/data used in research 
 

@@ -1,0 +1,139 @@
+library(xtable)
+source("makeCI.R")
+
+alpha = 0.05 # type-I error
+
+load("../Data/LatentConti00.RData")
+load("../Data/LatentConti10.RData")
+load("../Data/LatentConti15.RData")
+load("../Data/LatentConti20.RData")
+outcome0 = matrix(0, 500, 1000); outcome1 = matrix(0, 500, 1000)
+outcome2 = matrix(0, 500, 1000); outcome3 = matrix(0, 500, 1000)
+moran0 = c(); moran1 = c(); moran2 = c(); moran3 = c()
+Zpower = rep(0,4); Ppower = rep(0,4)
+for(mm in 1:500){
+  
+  outcome0[mm,] = LatentConti00[[mm]][[1]]
+  outcome1[mm,] = LatentConti10[[mm]][[1]]
+  outcome2[mm,] = LatentConti15[[mm]][[1]]
+  outcome3[mm,] = LatentConti20[[mm]][[1]]
+  
+  moran0[mm] = LatentConti00[[mm]][[2]][1]
+  moran1[mm] = LatentConti10[[mm]][[2]][1]
+  moran2[mm] = LatentConti15[[mm]][[2]][1]
+  moran3[mm] = LatentConti20[[mm]][[2]][1]
+  
+  Zpower[1] = Zpower[1] + (LatentConti00[[mm]][[2]][2] <= alpha) / 500
+  Ppower[1] = Ppower[1] + (LatentConti00[[mm]][[2]][3] <= alpha) / 500
+  
+  Zpower[2] = Zpower[2] + (LatentConti10[[mm]][[2]][2] <= alpha) / 500
+  Ppower[2] = Ppower[2] + (LatentConti10[[mm]][[2]][3] <= alpha) / 500
+  
+  Zpower[3] = Zpower[3] + (LatentConti15[[mm]][[2]][2] <= alpha) / 500
+  Ppower[3] = Ppower[3] + (LatentConti15[[mm]][[2]][3] <= alpha) / 500
+  
+  Zpower[4] = Zpower[4] + (LatentConti20[[mm]][[2]][2] <= alpha) / 500
+  Ppower[4] = Ppower[4] + (LatentConti20[[mm]][[2]][3] <= alpha) / 500
+}
+
+
+# rho = 0.00
+ci.r0 = ci_indep(outcome0)
+right.index =  which(ci.r0[,1]*ci.r0[,2] < 0)
+wrong.r0 = ci.r0[-right.index,]
+right.r0 = ci.r0[right.index,]
+cci.r0 = rbind(wrong.r0, right.r0)
+
+# rho = 0.10
+ci.r1 = ci_indep(outcome1)
+right.index = which(ci.r1[,1]*ci.r1[,2] < 0)
+wrong.r1 = ci.r1[-right.index,]
+right.r1 = ci.r1[right.index,]
+cci.r1 = rbind(wrong.r1, right.r1)
+
+# rho = 0.15
+ci.r2 = ci_indep(outcome2)
+right.index = which(ci.r2[,1]*ci.r2[,2] < 0)
+wrong.r2 = ci.r2[-right.index,]
+right.r2 = ci.r2[right.index,]
+cci.r2 = rbind(wrong.r2, right.r2)
+
+# rho = 0.20
+ci.r3 = ci_indep(outcome3)
+right.index = which(ci.r3[,1]*ci.r3[,2] < 0)
+wrong.r3 = ci.r3[-right.index,]
+right.r3 = ci.r3[right.index,]
+cci.r3 = rbind(wrong.r3, right.r3)
+
+
+pdf("../Figure/coverage_latent.pdf", width = 12, height = 8)
+par(mfrow = c(1,4), oma = c(5, 5, 2, 2), cex.lab = 2, 
+    cex.main = 3, cex.axis = 2, tcl = 0.5,
+    mai = c(0.7, 0.3, 0.3, 0.3))
+# rho = 0
+plot(x = c(cci.r0[1,1] , cci.r0[1,2]), y = c(1.0, 1.0), xlim = c(min(ci.r3) , max(ci.r3)),
+     ylim = c(0,1.0), lwd = 1, type = "l", main = expression(paste(rho, " = 0.00", sep="")), 
+     xlab = paste("Coverage :", cov_indep(outcome0, mu = 0) ) , ylab = "", col = "darkslateblue")
+for(i in 2:nrow(cci.r0)){
+  lines(x = c(cci.t0[i,1], cci.r0[i,2])
+        , y = c(1.0 - (i-1)/nrow(cci.r0), 1.0 - (i-1)/nrow(cci.r0)),
+        lwd = 1 , type = "l", col = "darkslateblue")
+}
+abline(h = cov_indep(outcome0, mu = 0), lty =2, col = "black", lwd = 2)
+abline(v = 0, lty = 1, col = "red", lwd = 2)
+
+# rho = 0.10
+plot(x = c(cci.r1[1,1] , cci.r1[1,2]), y = c(1.0, 1.0)   ,xlim = c(min(ci.r3) , max(ci.r3)),
+     ylim = c(0,1.0), lwd = 1, type = "l", main = expression(paste(rho, " = 0.10", sep="")),
+     xlab = paste("Coverage :", cov_indep(outcome1, mu = 0) ), ylab = "", col = "lightpink")
+for(i in 2:nrow(cci.r1)){
+  lines(x = c(cci.r1[i,1], cci.r1[i,2])
+        , y = c(1.0 - (i-1)/nrow(cci.r1), 1.0 - (i-1)/nrow(cci.r1)),
+        lwd = 1 , type = "l", col = "lightpink")
+}
+abline(h = cov_indep(outcome1, mu = 0), lty =2, col = "black", lwd = 2)
+abline(v = 0, lty = 1, col = "red", lwd = 2)
+
+# rho = 0.15
+plot(x = c(cci.r2[1,1] , cci.r2[1,2]), y = c(1.0, 1.0), xlim = c(min(ci.r3) , max(ci.r3)),
+     ylim = c(0,1.0), lwd = 1, type = "l", main = expression(paste(rho, " = 0.15", sep="")),
+     xlab = paste("Coverage :", cov_indep(outcome2, mu = 0) ), ylab="", col = "gold")
+for(i in 2:nrow(cci.r2)){
+  lines(x = c(cci.r2[i,1], cci.r2[i,2])
+        , y = c(1.0 - (i-1)/nrow(cci.r2), 1.0 - (i-1)/nrow(cci.r2)),
+        lwd = 1 , type = "l", col = "gold")
+}
+abline(h = cov_indep(outcome2, mu = 0), lty =2, col = "black", lwd = 2)
+abline(v = 0, lty = 1, col = "red", lwd = 2)
+
+# rho = 0.20
+plot(x = c(cci.r3[1,1] , cci.r3[1,2]), y = c(1.0, 1.0)   ,xlim = c(min(ci.r3) , max(ci.r3)),
+     ylim = c(0,1.0), lwd = 1, type = "l", main = expression(paste(rho, " = 0.20", sep="")),
+     xlab = paste("Coverage :", cov_indep(outcome3, mu = 0) ), ylab="", col = "skyblue")
+for(i in 2:nrow(cci.r3)){
+  lines(x = c(cci.r3[i,1], cci.r3[i,2])
+        , y = c(1.0 - (i-1)/nrow(cci.r3), 1.0 - (i-1)/nrow(cci.r3)),
+        lwd = 1 , type = "l", col = "skyblue")
+}
+abline(h = cov_indep(outcome3, mu = 0), lty =2, col = "black", lwd = 2)
+abline(v = 0, lty = 1, col = "red", lwd = 2)
+mtext("95% CI coverage assuming independence", side = 1, line = 1.5, outer = TRUE, cex= 2.5)
+mtext("Proportion of Simulations", side = 2, line = 1, outer = TRUE, cex= 2.5)
+dev.off()
+
+#### make table
+summary_latent_conti = matrix(NA, nrow = 4 , ncol = 3)
+rownames(summary_latent_conti) = c("r = 0.00", "r = 0.10" ,"r = 0.15", "r = 0.20")
+colnames(summary_latent_conti) =  c("95% CI coverage",
+                                   "% of p-values(z)<=0.05", 
+                                   "% of p-values(permuation) <=0.05")
+summary_latent_conti[,1] = c(cov_indep(outcome0, mu = 0), cov_indep(outcome1, mu = 0),
+                            cov_indep(outcome2, mu = 0), cov_indep(outcome3, mu = 0))
+
+summary_latent_conti[,2] = Zpower*100
+summary_latent_conti[,3] = Ppower*100
+summary_latent_conti = as.data.frame(summary_latent_conti)
+print(xtable(summary_latent_conti , digits = 2, row.names = TRUE))
+
+
+

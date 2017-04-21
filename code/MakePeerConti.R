@@ -8,7 +8,7 @@ source("generatePeerConti.R")
 source("generateLatentConti.R")
 source("MoranI.R")
 #######################################
-popn = 1000
+popn = 200
 np = 500
 
 times = c(0,1,2,3)
@@ -19,9 +19,11 @@ RNGkind("L'Ecuyer-CMRG")
 cl <- makeCluster(nCores) # create a cluster 
 registerDoParallel(cl) # register the cluster
 
-PeerConti = foreach(mm = 1:500, .packages = c('igraph', 'parallel', 'MASS')) %dopar% {
+
+PeerConti200 = foreach(mm = 1:500, .packages = c('igraph', 'parallel', 'MASS')) %dopar% {
 
   set.seed(mm)
+  
   # First of all, create a dependence space
   A = latent_space_peer(popn)
   outcome = peer_influence_dependence(A, times, mprob = 0.50)
@@ -31,7 +33,7 @@ PeerConti = foreach(mm = 1:500, .packages = c('igraph', 'parallel', 'MASS')) %do
   }
 
   # save the outcomes for each time point 
-  return(list(outcome, result)) 
+	return(list(outcome, result)) 
 } 
 
-save(PeerConti, file = "PeerConti.RData")
+save(PeerConti200, file = "../data/PeerConti200.RData")

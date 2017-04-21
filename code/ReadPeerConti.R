@@ -3,25 +3,25 @@ source("makeCI.R")
 
 alpha = 0.05 # type-I error
 
-load("../Data/PeerConti.RData")
+load("../data/PeerConti200.RData")
 
-outcome0 = matrix(0, 500, 1000); outcome1 = matrix(0, 500, 1000)
-outcome2 = matrix(0, 500, 1000); outcome3 = matrix(0, 500, 1000)
+outcome0 = matrix(0, 500, 200); outcome1 = matrix(0, 500, 200)
+outcome2 = matrix(0, 500, 200); outcome3 = matrix(0, 500, 200)
 moran0 = c(); moran1 = c(); moran2 = c(); moran3 = c()
 Zpower = rep(0,4); Ppower = rep(0,4)
 for(mm in 1:500){
-  outcome0[mm,] = PeerConti[[mm]][[1]][1,]
-  outcome1[mm,] = PeerConti[[mm]][[1]][2,]
-  outcome2[mm,] = PeerConti[[mm]][[1]][3,]
-  outcome3[mm,] = PeerConti[[mm]][[1]][4,]
+  outcome0[mm,] = PeerConti200[[mm]][[1]][1,]
+  outcome1[mm,] = PeerConti200[[mm]][[1]][2,]
+  outcome2[mm,] = PeerConti200[[mm]][[1]][3,]
+  outcome3[mm,] = PeerConti200[[mm]][[1]][4,]
   
-  moran0[mm] = PeerConti[[mm]][[2]][1,1]
-  moran1[mm] = PeerConti[[mm]][[2]][2,1]
-  moran2[mm] = PeerConti[[mm]][[2]][3,1]
-  moran3[mm] = PeerConti[[mm]][[2]][4,1]
+  moran0[mm] = PeerConti200[[mm]][[2]][1,1]
+  moran1[mm] = PeerConti200[[mm]][[2]][2,1]
+  moran2[mm] = PeerConti200[[mm]][[2]][3,1]
+  moran3[mm] = PeerConti200[[mm]][[2]][4,1]
   
-  Zpower = Zpower + (PeerConti[[mm]][[2]][c(1:4), 2] <= alpha) / 500
-  Ppower = Ppower + (PeerConti[[mm]][[2]][c(1:4), 3] <= alpha) / 500
+  Zpower = Zpower + (PeerConti200[[mm]][[2]][c(1:4), 2] <= alpha) / 500
+  Ppower = Ppower + (PeerConti200[[mm]][[2]][c(1:4), 3] <= alpha) / 500
 }
 
 ####### coverage rate ########
@@ -53,8 +53,8 @@ wrong.t3 = ci.t3[-right.index,]
 right.t3 = ci.t3[right.index,]
 cci.t3 = rbind(wrong.t3, right.t3)
 
-
-pdf("../Figure/coverage_peer.pdf", width = 12, height = 8)
+## figure
+pdf("../figures/coverage_peer200.pdf", width = 12, height = 8)
 par(mfrow = c(1,4), oma = c(5, 5, 2, 2), cex.lab = 2, 
     cex.main = 3, cex.axis = 2, tcl = 0.5,
     mai = c(0.7, 0.3, 0.3, 0.3))

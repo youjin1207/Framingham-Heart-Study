@@ -3,7 +3,7 @@ source("makeCI.R")
 
 alpha = 0.05 # type-I error
 
-load("../data/PeerConti200.RData")
+load("../data/PeerConti.RData")
 
 outcome0 = matrix(0, 500, 200); outcome1 = matrix(0, 500, 200)
 outcome2 = matrix(0, 500, 200); outcome3 = matrix(0, 500, 200)

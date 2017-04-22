@@ -36,4 +36,4 @@ PeerConti200 = foreach(mm = 1:500, .packages = c('igraph', 'parallel', 'MASS')) 
 	return(list(outcome, result)) 
 } 
 
-save(PeerConti200, file = "../data/PeerConti200.RData")
+save(PeerConti200, file = "../data/PeerConti.RData")

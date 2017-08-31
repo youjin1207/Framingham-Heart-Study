@@ -81,7 +81,7 @@ par(mfrow = c(1,1),   mar = c(7,10,5,3),  cex.lab = 3,
     cex.main = 3, cex.axis = 2, tcl = 0.5)
 plot(density(phi0), 
      xlab = expression(Phi),
-     main = expression(paste("Distribution of ", Phi, " under Peer Influence")), 
+     main = expression(paste("Distribution of ", Phi, " under direct transmission")), 
      col = rgb(1,0,0,0.5), ylab = "Density",
      xlim = c(min(phi0), max(phi3)), 
       mgp = c(5,1,0), lwd = 4, xaxt = "n")

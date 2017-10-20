@@ -9,12 +9,20 @@ newphi = function(A, Y){
   n = length(Y)
   pvector = as.vector(table(Y)) / n
   
+  B = matrix(0, nrow = nrow(A), ncol = ncol(A))
+  for(i in 1:n){
+      prob1 = pvector[which(Y[i] == names(table(Y)))]
+      B[i,] = A[i,] / prob1
+  }
+  for(j in 1:n){
+    prob2 = pvector[which(Y[j] == names(table(Y)))]
+    B[,j] = B[,j] / prob2
+  }
+  
   Phi = 0
   for(i in 1:n){
     for(j in i:n){
-      prob1 = pvector[which(Y[i] == names(table(Y)))]
-      prob2 = pvector[which(Y[j] == names(table(Y)))]
-      Phi = Phi + A[i,j]*(2*(Y[i] == Y[j]) - 1)/ (prob1*prob2) 
+      Phi = Phi + B[i,j]*(2*(Y[i] == Y[j]) - 1) 
     }
   }
   

@@ -20,16 +20,16 @@ network = network_c1[ (network_c1$SPELLBEGIN <= 12*12) & (network_c1$SPELLEND > 
 # indicator of having coronary heart disease disease before the exam and during the exam
 ## before16 < 365*31 = 11315
 ## during16 (365*31  = 11315)  & (< 365*35 = 12775) 
-before16.chd = (CVD.whole_c1$chddate < 11315)
-during16.chd = (CVD.whole_c1$chddate >= 11315) & (CVD.whole_c1$chddate < 12775)
+before16.chd = (CVD.whole_c1$chddate < 11315) & (CVD.whole_c1$chd == 1)
+during16.chd = (CVD.whole_c1$chddate >= 11315) & (CVD.whole_c1$chddate < 12775) & (CVD.whole_c1$chd == 1)
 
 # indicator of having coronary heart failure before the exam and during the exam
-before16.chf = (CVD.whole_c1$chfdate < 11315)
-during16.chf = (CVD.whole_c1$chfdate >= 11315) & (CVD.whole_c1$chfdate < 12775)
+before16.chf = (CVD.whole_c1$chfdate < 11315) & (CVD.whole_c1$chf == 1)
+during16.chf = (CVD.whole_c1$chfdate >= 11315) & (CVD.whole_c1$chfdate < 12775) & (CVD.whole_c1$chf == 1)
 
 # indicator of having cardiovascular disease before the exam and during the exam
-before16.cvd = (CVD.whole_c1$cvddate < 11315)
-during16.cvd = (CVD.whole_c1$cvddate >= 11315) & (CVD.whole_c1$cvddate < 12775)
+before16.cvd = (CVD.whole_c1$cvddate < 11315)  & (CVD.whole_c1$cvd == 1)
+during16.cvd = (CVD.whole_c1$cvddate >= 11315) & (CVD.whole_c1$cvddate < 12775) & (CVD.whole_c1$cvd == 1)
 
 # coronary heart disease, coronary heart failure, cardiovascular disease
 CVD_c1 = cbind(CVD.whole_c1$shareid, before16.chd, before16.chf, before16.cvd,
@@ -235,9 +235,15 @@ Total.female.eli =  Total.eli.obs[Total.eli.obs$sex == 2, ]
 
 
 
-male.result.BMI = lm(adjusted.mass ~ BMI, data = Total.male.eli)
-male.result.ageBMI = lm(adjusted.mass ~ age + BMI, data = Total.male.eli)
-male.result.ageBMIBlood = lm(adjusted.mass ~ age + BMI + systolic, data = Total.male.eli)
+Total.male.eli$BMI = ifelse(Total.male.eli$BMI < 23, 1, Total.male.eli$BMI)
+Total.male.eli$BMI = ifelse(Total.male.eli$BMI >= 23 & Total.male.eli$BMI < 26, 2, Total.male.eli$BMI)
+Total.male.eli$BMI = ifelse(Total.male.eli$BMI >= 26 & Total.male.eli$BMI < 30, 3, Total.male.eli$BMI)
+Total.male.eli$BMI = ifelse(Total.male.eli$BMI >= 30, 4, Total.male.eli$BMI)
+
+
+male.result.BMI = lm(adjusted.mass ~ as.factor(BMI), data = Total.male.eli)
+male.result.ageBMI = lm(adjusted.mass ~ age + as.factor(BMI), data = Total.male.eli)
+male.result.ageBMIBlood = lm(adjusted.mass ~ age + as.factor(BMI) + systolic, data = Total.male.eli)
 
 
 male.residual.BMI = male.result.BMI$residuals
@@ -256,7 +262,6 @@ for(i in 1:nrow(Adj)){
   Adj[friends2, i] = 1
 }
 
-Male.Adj = Adj
 #isolate = which(rowSums(Adj) == 0)
 Male.mass = MoranI(Adj, Total.male.eli$adjusted.mass)
 Male.BMI = MoranI(Adj, Total.male.eli$BMI)
@@ -275,9 +280,14 @@ Total.female = Total[Total$sex == 2, ]
 Total.female.eli = Total.female[Total.female$exclude == 0,  ] 
 Total.female.eli = na.omit(Total.female.eli)
 
-female.result.BMI = lm(adjusted.mass ~ BMI, data = Total.female.eli)
-female.result.ageBMI = lm(adjusted.mass ~ age + BMI, data = Total.female.eli)
-female.result.ageBMIBlood = lm(adjusted.mass ~ age + BMI + systolic, data = Total.female.eli)
+Total.female.eli$BMI = ifelse(Total.female.eli$BMI < 23, 1, Total.female.eli$BMI)
+Total.female.eli$BMI = ifelse(Total.female.eli$BMI >= 23 & Total.female.eli$BMI < 26, 2, Total.female.eli$BMI)
+Total.female.eli$BMI = ifelse(Total.female.eli$BMI >= 26 & Total.female.eli$BMI < 30, 3, Total.female.eli$BMI)
+Total.female.eli$BMI = ifelse(Total.female.eli$BMI >= 30, 4, Total.female.eli$BMI)
+
+female.result.BMI = lm(adjusted.mass ~ as.factor(BMI), data = Total.female.eli)
+female.result.ageBMI = lm(adjusted.mass ~ age + as.factor(BMI), data = Total.female.eli)
+female.result.ageBMIBlood = lm(adjusted.mass ~ age + as.factor(BMI) + systolic, data = Total.female.eli)
 
 female.residual.BMI = female.result.BMI$residuals
 female.residual.ageBMI = female.result.ageBMI$residuals
@@ -374,6 +384,42 @@ Female.table[5,] = c( paste(round(Female.model3.permute[1],2), " (" , round(Fema
                     round(Female.model3.permute[3], 3))
 xtable(print(Female.table))
 
+###############################################################
+summary(male.result.ageBMIBlood)
+table(Total.male.eli$BMI)
+mean.age = 40; mean.sys = 118
+male.estimates = summary(male.result.ageBMIBlood)$coefficients[,1]
+male.BMI1 = male.estimates[1] + mean.age*male.estimates[2] + 118*male.estimates[6]
+male.BMI2 = male.estimates[1] + mean.age*male.estimates[2] + male.estimates[3] + 118*male.estimates[6]
+male.BMI3 = male.estimates[1] + mean.age*male.estimates[2] + male.estimates[4] + 118*male.estimates[6]
+male.BMI4 = male.estimates[1] + mean.age*male.estimates[2] + male.estimates[5] + 118*male.estimates[6]
+
+
+female.estimates = summary(female.result.ageBMIBlood)$coefficients[,1]
+female.BMI1 = female.estimates[1] + mean.age*female.estimates[2] + 118*female.estimates[6]
+female.BMI2 = female.estimates[1] + mean.age*female.estimates[2] + female.estimates[3] + 118*female.estimates[6]
+female.BMI3 = female.estimates[1] + mean.age*female.estimates[2] + female.estimates[4] + 118*female.estimates[6]
+female.BMI4 = female.estimates[1] + mean.age*female.estimates[2] + female.estimates[5] + 118*female.estimates[6]
+
+
+count.mat = matrix(0, nrow = 2, ncol = 4)
+colnames(count.mat) = c("<23", "23-25.99", "26-29.99", ">=30")
+rownames(count.mat) = c("Male", "Female")
+count.mat[1,] = c(male.BMI1, male.BMI2, male.BMI3, male.BMI4)
+count.mat[2,] = c(female.BMI1, female.BMI2, female.BMI3, female.BMI4)
+
+pdf("figures/BMIbarplot.pdf")
+par(mar = c(8,10,3,3), tcl = 0.5)
+barplot(count.mat, beside = TRUE, col = c("grey", "black"),
+        ylim = c(60, 160), xpd=FALSE, cex.lab = 2, mgp = c(4,1,0),
+        xlab = expression(paste("Body-Mass Index, kg/", m^2, sep="")),
+        ylab = "Left Ventricular Mass \nCorrected for Height, g/m")
+dev.off()
+
+
+female.mat = formatC(summary(female.result.ageBMIBlood)$coefficients, digits = 2, format = "f")
+male.mat = formatC(summary(male.result.ageBMIBlood)$coefficients, digits = 2, format = "f")
+print(xtable(rbind(female.mat, male.mat)))
 ################################################################
 RdPalette = colorRampPalette(brewer.pal(9,"Reds"))(20)
 BlPalette = colorRampPalette(brewer.pal(9,"Blues"))(20)
@@ -396,7 +442,7 @@ V(Male.sub)[which.max(V(Male.sub)$Y)]$color = BlPalette[20]
 
 igraph.options(vertex.size = 3, edge.arrow.size = 0.1,
                vertex.label = NULL)
-pdf("figure/subMale_residual.pdf")
+pdf("figures/subMale_residual.pdf")
 par(mar=c(0,0,3,0), cex.main = 3)
 set.seed(123)
 plot(Male.sub, layout = layout.fruchterman.reingold,
@@ -421,7 +467,7 @@ V(Female.sub)[which.max(V(Female.sub)$Y)]$color = RdPalette[20]
 
 igraph.options(vertex.size = 3, edge.arrow.size = 0.1,
                vertex.label = NULL)
-pdf("figure/subFemale_residual.pdf")
+pdf("figures/subFemale_residual.pdf")
 par(mar=c(0,0,3,0), cex.main = 3)
 set.seed(123)
 plot(Female.sub, layout = layout.fruchterman.reingold,

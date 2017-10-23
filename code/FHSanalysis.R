@@ -408,15 +408,6 @@ rownames(count.mat) = c("Male", "Female")
 count.mat[1,] = c(male.BMI1, male.BMI2, male.BMI3, male.BMI4)
 count.mat[2,] = c(female.BMI1, female.BMI2, female.BMI3, female.BMI4)
 
-pdf("figures/BMIbarplot.pdf")
-par(mar = c(8,10,3,3), tcl = 0.5)
-barplot(count.mat, beside = TRUE, col = c("grey", "black"),
-        ylim = c(60, 160), xpd=FALSE, cex.lab = 2, mgp = c(4,1,0),
-        xlab = expression(paste("Body-Mass Index, kg/", m^2, sep="")),
-        ylab = "Left Ventricular Mass \nCorrected for Height, g/m")
-dev.off()
-
-
 female.mat = formatC(summary(female.result.ageBMIBlood)$coefficients, digits = 2, format = "f")
 male.mat = formatC(summary(male.result.ageBMIBlood)$coefficients, digits = 2, format = "f")
 print(xtable(rbind(female.mat, male.mat)))
@@ -442,7 +433,7 @@ V(Male.sub)[which.max(V(Male.sub)$Y)]$color = BlPalette[20]
 
 igraph.options(vertex.size = 3, edge.arrow.size = 0.1,
                vertex.label = NULL)
-pdf("figures/subMale_residual.pdf")
+pdf("../figures/subMale_residual.pdf")
 par(mar=c(0,0,3,0), cex.main = 3)
 set.seed(123)
 plot(Male.sub, layout = layout.fruchterman.reingold,
@@ -467,7 +458,7 @@ V(Female.sub)[which.max(V(Female.sub)$Y)]$color = RdPalette[20]
 
 igraph.options(vertex.size = 3, edge.arrow.size = 0.1,
                vertex.label = NULL)
-pdf("figures/subFemale_residual.pdf")
+pdf("../figures/subFemale_residual.pdf")
 par(mar=c(0,0,3,0), cex.main = 3)
 set.seed(123)
 plot(Female.sub, layout = layout.fruchterman.reingold,

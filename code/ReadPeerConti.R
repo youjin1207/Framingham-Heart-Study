@@ -109,7 +109,7 @@ abline(v = 0, lty = 1, col = "red", lwd = 2)
 # t = 3
 plot(x = c(cci.t3[1,1] , cci.t3[1,2]), y = c(1.0, 1.0)   ,xlim = c(min(ci.t1) , max(ci.t0)),
      ylim = c(0,1.0), lwd = 1, type = "l", main = "t = 3",
-     xlab = paste("Coverage :", cov_indep(outcome0, mu = 0), "\n Power :", Ppower[4] ), 
+     xlab = paste("Coverage :", cov_indep(outcome3, mu = 0), "\n Power :", Ppower[4] ), 
      ylab="", col = "skyblue",
      mgp = c(7,1,0), xpd = FALSE, xaxt = 'n')
 axis(1, at=c(-0.3, 0, 0.3),  labels = c(-0.3, 0, 0.3), tck = 0.05)

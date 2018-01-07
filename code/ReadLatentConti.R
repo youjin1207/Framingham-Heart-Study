@@ -54,33 +54,36 @@ right.r3 = ci.r3[right.index,]
 cci.r3 = rbind(wrong.r3, right.r3)
 
 
-Ppower = formatC(Ppower, digits = 3, format = 'f')
-pdf("../figures/coverage_latent200.pdf", width = 12, height = 8)
-par(mfrow = c(1,4), oma = c(7, 5, 2, 2), cex.lab = 2.8, 
+Ppower = round(Ppower*100)
+coverages = c(cov_indep(outcome0, mu = 0), cov_indep(outcome1, mu = 0),
+  cov_indep(outcome2, mu = 0), cov_indep(outcome3, mu = 0))
+coverages = round(coverages*100)
+pdf("figure/coverage_latent200.pdf", width = 12, height = 8)
+par(mfrow = c(1,4), oma = c(3, 4, 4, 2), cex.lab = 1.8, 
     cex.main = 3, cex.axis = 2, tcl = 0.5,
-    mai = c(1.2, 0.3, 0.3, 0.3))
-# rho = 0
+    mai = c(1.2, 0.5, 0.5, 0.5))
+# t = 0
 plot(x = c(cci.r0[1,1] , cci.r0[1,2]), y = c(1.0, 1.0), xlim = c(min(ci.r3) , max(ci.r3)),
-     ylim = c(0,1.0), lwd = 1, type = "l", main = expression(paste(rho, " = 0.00", sep="")), 
-     xlab = paste("Coverage :", cov_indep(outcome0, mu = 0), "\n Power :", Ppower[1]),
+     ylim = c(0,1.0), lwd = 1, type = "l",  
+     xlab = paste("Coverage :", coverages[1], "%", "\n Reject independence :", Ppower[1], "%") , 
      ylab = "", col = "darkslateblue",
      mgp = c(7,1,0), xpd = FALSE,  xaxt = 'n')
-axis(1, at=c(-0.4, 0, 0.4),  labels = c(-0.4, 0, 0.4), tck = 0.05)
+axis(1, at=c(-0.3, 0, 0.3),  labels = c(-0.3, 0, 0.3), tck = 0.05)
 for(i in 2:nrow(cci.r0)){
-  lines(x = c(cci.t0[i,1], cci.r0[i,2])
+  lines(x = c(cci.r0[i,1], cci.r0[i,2])
         , y = c(1.0 - (i-1)/nrow(cci.r0), 1.0 - (i-1)/nrow(cci.r0)),
         lwd = 1 , type = "l", col = "darkslateblue")
 }
 abline(h = cov_indep(outcome0, mu = 0), lty =2, col = "black", lwd = 2)
 abline(v = 0, lty = 1, col = "red", lwd = 2)
 
-# rho = 0.20
-plot(x = c(cci.r1[1,1] , cci.r1[1,2]), y = c(1.0, 1.0), xlim = c(min(ci.r3) , max(ci.r3)),
-     ylim = c(0,1.0), lwd = 1, type = "l", main = expression(paste(rho, " = 0.20", sep="")),
-     xlab = paste("Coverage :", formatC(cov_indep(outcome1, mu = 0), digits = 3, format = 'f') , "\n Power :", Ppower[2]) ,
+
+plot(x = c(cci.r1[1,1] , cci.r1[1,2]), y = c(1.0, 1.0)   ,xlim = c(min(ci.r3) , max(ci.r3)),
+     ylim = c(0,1.0), lwd = 1, type = "l",
+     xlab = paste("Coverage :", coverages[2], "%", "\n Reject independence :", Ppower[2], "%"), 
      ylab = "", col = "lightpink",
-    mgp = c(7,1,0), xpd = FALSE,  xaxt = 'n')
-axis(1, at=c(-0.4, 0, 0.4),  labels = c(-0.4, 0, 0.4), tck = 0.05)
+     mgp = c(7,1,0), xpd = FALSE, xaxt = 'n')
+axis(1, at=c(-0.3, 0, 0.3),  labels = c(-0.3, 0, 0.3), tck = 0.05)
 for(i in 2:nrow(cci.r1)){
   lines(x = c(cci.r1[i,1], cci.r1[i,2])
         , y = c(1.0 - (i-1)/nrow(cci.r1), 1.0 - (i-1)/nrow(cci.r1)),
@@ -89,13 +92,13 @@ for(i in 2:nrow(cci.r1)){
 abline(h = cov_indep(outcome1, mu = 0), lty =2, col = "black", lwd = 2)
 abline(v = 0, lty = 1, col = "red", lwd = 2)
 
-# rho = 0.30
+
 plot(x = c(cci.r2[1,1] , cci.r2[1,2]), y = c(1.0, 1.0), xlim = c(min(ci.r3) , max(ci.r3)),
-     ylim = c(0,1.0), lwd = 1, type = "l", main = expression(paste(rho, " = 0.30", sep="")),
-     xlab = paste("Coverage :", cov_indep(outcome2, mu = 0), "\n Power :", Ppower[3]),
+     ylim = c(0,1.0), lwd = 1, type = "l",
+     xlab = paste("Coverage :",coverages[3], "%", "\n Reject independence :", Ppower[3], "%"), 
      ylab="", col = "gold",
-    mgp = c(7,1,0), xpd = FALSE,  xaxt = 'n')
-axis(1, at=c(-0.4, 0, 0.4),  labels = c(-0.4, 0, 0.4), tck = 0.05)
+     mgp = c(7,1,0), xpd = FALSE, xaxt = 'n')
+axis(1, at=c(-0.3, 0, 0.3),  labels = c(-0.3, 0, 0.3), tck = 0.05)
 for(i in 2:nrow(cci.r2)){
   lines(x = c(cci.r2[i,1], cci.r2[i,2])
         , y = c(1.0 - (i-1)/nrow(cci.r2), 1.0 - (i-1)/nrow(cci.r2)),
@@ -104,13 +107,13 @@ for(i in 2:nrow(cci.r2)){
 abline(h = cov_indep(outcome2, mu = 0), lty =2, col = "black", lwd = 2)
 abline(v = 0, lty = 1, col = "red", lwd = 2)
 
-# rho = 0.40
+
 plot(x = c(cci.r3[1,1] , cci.r3[1,2]), y = c(1.0, 1.0)   ,xlim = c(min(ci.r3) , max(ci.r3)),
-     ylim = c(0,1.0), lwd = 1, type = "l", main = expression(paste(rho, " = 0.40", sep="")),
-     xlab = paste("Coverage :", cov_indep(outcome3, mu = 0), "\n Power :", Ppower[4]), 
+     ylim = c(0,1.0), lwd = 1, type = "l", 
+     xlab = paste("Coverage :", coverages[4], "%", "\n Reject independence :", Ppower[4], "%"), 
      ylab="", col = "skyblue",
-    mgp = c(7,1,0), xpd = FALSE,  xaxt = 'n')
-axis(1, at=c(-0.4, 0, 0.4),  labels = c(-0.4, 0, 0.4), tck = 0.05)
+     mgp = c(7,1,0), xpd = FALSE, xaxt = 'n')
+axis(1, at=c(-0.3, 0, 0.3),  labels = c(-0.3, 0, 0.3), tck = 0.05)
 for(i in 2:nrow(cci.r3)){
   lines(x = c(cci.r3[i,1], cci.r3[i,2])
         , y = c(1.0 - (i-1)/nrow(cci.r3), 1.0 - (i-1)/nrow(cci.r3)),
@@ -118,7 +121,7 @@ for(i in 2:nrow(cci.r3)){
 }
 abline(h = cov_indep(outcome3, mu = 0), lty =2, col = "black", lwd = 2)
 abline(v = 0, lty = 1, col = "red", lwd = 2)
-mtext("95% CI coverage assuming independence", side = 1, line = 4, outer = TRUE, cex= 2.5, xpd = TRUE)
+mtext(expression(paste("95% confidence intervals for ", mu, " assuming independence", sep="")), side = 3, line = 0, outer = TRUE, cex= 2.5, xpd = TRUE)
 mtext("Proportion of Simulations", side = 2, line = 1, outer = TRUE, cex= 2.5, adj = 0.7)
 dev.off()
 

@@ -56,15 +56,18 @@ right.t3 = ci.t3[right.index,]
 cci.t3 = rbind(wrong.t3, right.t3)
 
 ## figure
-Ppower = formatC(Ppower, digits = 3, format = 'f')
+Ppower = round(Ppower*100)
+coverages = c(cov_indep(outcome0, mu = 0), cov_indep(outcome1, mu = 0),
+  cov_indep(outcome2, mu = 0), cov_indep(outcome3, mu = 0))
+coverages = round(coverages*100)
 pdf("../figures/coverage_peer200.pdf", width = 12, height = 8)
-par(mfrow = c(1,4), oma = c(7, 5, 2, 2), cex.lab = 2.8, 
+par(mfrow = c(1,4), oma = c(3, 4, 4, 2), cex.lab = 1.8, 
     cex.main = 3, cex.axis = 2, tcl = 0.5,
-    mai = c(1.2, 0.3, 0.3, 0.3))
+    mai = c(1.2, 0.5, 0.5, 0.5))
 # t = 0
 plot(x = c(cci.t0[1,1] , cci.t0[1,2]), y = c(1.0, 1.0), xlim = c(min(ci.t1) , max(ci.t0)),
-     ylim = c(0,1.0), lwd = 1, type = "l", main = "t = 0", 
-     xlab = paste("Coverage :", cov_indep(outcome0, mu = 0), "\n Power :", Ppower[1]) , 
+     ylim = c(0,1.0), lwd = 1, type = "l",  
+     xlab = paste("Coverage :", coverages[1], "%", "\n Reject independence :", Ppower[1], "%") , 
      ylab = "", col = "darkslateblue",
      mgp = c(7,1,0), xpd = FALSE,  xaxt = 'n')
 axis(1, at=c(-0.3, 0, 0.3),  labels = c(-0.3, 0, 0.3), tck = 0.05)
@@ -78,8 +81,8 @@ abline(v = 0, lty = 1, col = "red", lwd = 2)
 
 # t = 1
 plot(x = c(cci.t1[1,1] , cci.t1[1,2]), y = c(1.0, 1.0)   ,xlim = c(min(ci.t1) , max(ci.t0)),
-     ylim = c(0,1.0), lwd = 1, type = "l", main = "t = 1",
-     xlab = paste("Coverage :", cov_indep(outcome1, mu = 0), "\n Power :", Ppower[2] ), 
+     ylim = c(0,1.0), lwd = 1, type = "l",
+     xlab = paste("Coverage :", coverages[2], "%", "\n Reject independence :", Ppower[2], "%"), 
      ylab = "", col = "lightpink",
      mgp = c(7,1,0), xpd = FALSE, xaxt = 'n')
 axis(1, at=c(-0.3, 0, 0.3),  labels = c(-0.3, 0, 0.3), tck = 0.05)
@@ -93,8 +96,8 @@ abline(v = 0, lty = 1, col = "red", lwd = 2)
 
 # t = 2
 plot(x = c(cci.t2[1,1] , cci.t2[1,2]), y = c(1.0, 1.0), xlim = c(min(ci.t1) , max(ci.t0)),
-     ylim = c(0,1.0), lwd = 1, type = "l", main = "t = 2",
-     xlab = paste("Coverage :", cov_indep(outcome2, mu = 0), "\n Power :", Ppower[3] ), 
+     ylim = c(0,1.0), lwd = 1, type = "l",
+     xlab = paste("Coverage :",coverages[3], "%", "\n Reject independence :", Ppower[3], "%"), 
      ylab="", col = "gold",
      mgp = c(7,1,0), xpd = FALSE, xaxt = 'n')
 axis(1, at=c(-0.3, 0, 0.3),  labels = c(-0.3, 0, 0.3), tck = 0.05)
@@ -108,8 +111,8 @@ abline(v = 0, lty = 1, col = "red", lwd = 2)
 
 # t = 3
 plot(x = c(cci.t3[1,1] , cci.t3[1,2]), y = c(1.0, 1.0)   ,xlim = c(min(ci.t1) , max(ci.t0)),
-     ylim = c(0,1.0), lwd = 1, type = "l", main = "t = 3",
-     xlab = paste("Coverage :", cov_indep(outcome3, mu = 0), "\n Power :", Ppower[4] ), 
+     ylim = c(0,1.0), lwd = 1, type = "l", 
+     xlab = paste("Coverage :", coverages[4], "%", "\n Reject independence :", Ppower[4], "%"), 
      ylab="", col = "skyblue",
      mgp = c(7,1,0), xpd = FALSE, xaxt = 'n')
 axis(1, at=c(-0.3, 0, 0.3),  labels = c(-0.3, 0, 0.3), tck = 0.05)
@@ -120,7 +123,7 @@ for(i in 2:nrow(cci.t3)){
 }
 abline(h = cov_indep(outcome3, mu = 0), lty =2, col = "black", lwd = 2)
 abline(v = 0, lty = 1, col = "red", lwd = 2)
-mtext("95% CI coverage assuming independence", side = 1, line = 4, outer = TRUE, cex= 2.5, xpd = TRUE)
+mtext(expression(paste("95% confidence intervals for ", mu, " assuming independence", sep="")), side = 3, line = 0, outer = TRUE, cex= 2.5, xpd = TRUE)
 mtext("Proportion of Simulations", side = 2, line = 1, outer = TRUE, cex= 2.5, adj = 0.7)
 dev.off()
 

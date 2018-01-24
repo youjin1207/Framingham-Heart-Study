@@ -58,7 +58,7 @@ Ppower = round(Ppower*100)
 coverages = c(cov_indep(outcome0, mu = 0), cov_indep(outcome1, mu = 0),
   cov_indep(outcome2, mu = 0), cov_indep(outcome3, mu = 0))
 coverages = round(coverages*100)
-pdf("figure/coverage_latent200.pdf", width = 12, height = 8)
+pdf("../figures/coverage_latent200.pdf", width = 12, height = 8)
 par(mfrow = c(1,4), oma = c(3, 4, 4, 2), cex.lab = 1.8, 
     cex.main = 3, cex.axis = 2, tcl = 0.5,
     mai = c(1.2, 0.5, 0.5, 0.5))

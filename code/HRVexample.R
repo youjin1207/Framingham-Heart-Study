@@ -174,6 +174,23 @@ for(i in 1:nrow(Adj)){
   Adj[friends2, i ] = 1
 }
 
+
+moran.permute.SDNN = make.permute.moran(Adj, log(all.data$SDNN), 500)
+moran.permute.pNN50 = make.permute.moran(Adj, log(all.data$pNN50), 500)
+moran.permute.rMSSD = make.permute.moran(Adj, log(all.data$rMSSD), 500)
+moran.permute.VLF = make.permute.moran(Adj, log(all.data$VLF), 500)
+moran.permute.LF = make.permute.moran(Adj, log(all.data$LF), 500)
+moran.permute.HF = make.permute.moran(Adj, log(all.data$HF), 500)
+moran.permute.TP = make.permute.moran(Adj, log(all.data$TP), 500)
+moran.permute.ratio = make.permute.moran(Adj, log(all.data$LF/  all.data$HF), 500)
+
+moran.permute.sex = make.permute.moran(Adj, all.data$sex, 500)
+moran.permute.age = make.permute.moran(Adj, all.data$age18, 500)
+moran.permute.myo = make.permute.moran(Adj, all.data$myo, 500)
+moran.permute.beats = make.permute.moran(Adj, all.data$beats, 500)
+moran.permute.CHF = make.permute.moran(Adj, all.data$CHF, 500)
+moran.permute.diuretic = make.permute.moran(Adj, all.data$diuretic, 500)
+
 moran.all.SDNN = make.permute.moran(Adj, fit.all.SDNN$residuals, 500)
 moran.all.pNN50 = make.permute.moran(Adj, fit.all.pNN50$residuals, 500)
 moran.all.rMSSD = make.permute.moran(Adj, fit.all.rMSSD$residuals, 500)

@@ -32,7 +32,7 @@ hyper_ex0_17 = pheno_c2_ex0_17$FJ318 # 2:maybe, 0: no, 1:yes, .:unknown
 hyper_ex0_17 = ifelse(hyper_ex0_17 != 0, 1, 0)
 
 ##  age/sex
-age.whole_c2 = read.table("data/age/phs000007.v29.pht003099.v4.p10.c2.vr_dates_2014_a_0912s.HMB-IRB-NPU-MDS.txt", sep = "\t", header = TRUE)
+#age.whole_c2 = read.table("data/age/phs000007.v29.pht003099.v4.p10.c2.vr_dates_2014_a_0912s.HMB-IRB-NPU-MDS.txt", sep = "\t", header = TRUE)
 age.whole_c2 = as.data.frame(age.whole_c2)
 age_c2 = as.data.frame(cbind(age.whole_c2$shareid, age.whole_c2$sex, age.whole_c2$age1))
 colnames(age_c2) = c("shareid", "sex", "age1")
@@ -43,13 +43,13 @@ agesex_ex0_17 = cbind(match_ex0_17[,1:2], match_ex0_17[,3] + 33)
 colnames(agesex_ex0_17)[3] = c("age17")
 
 ## Coronary Heart Disease
-CHD.whole_c2 = read.table("data/CVD/phs000007.v29.pht003316.v6.p10.c2.vr_survcvd_2014_a_1023s.HMB-IRB-NPU-MDS.txt", sep = "\t", header = TRUE)
+#CHD.whole_c2 = read.table("data/CVD/phs000007.v29.pht003316.v6.p10.c2.vr_survcvd_2014_a_1023s.HMB-IRB-NPU-MDS.txt", sep = "\t", header = TRUE)
 # before stroke
 CHD_ex0_17 = CHD.whole_c2[CHD.whole_c2$shareid %in% pheno_c2_ex0_17$shareid, ]
 CHD_before.stroke = (CHD_ex0_17$chddate <= 13505) & (CHD_ex0_17$chd == 1)
 
 ## Coronary Heart failure
-CHF.whole_c2 = read.table("data/CVD/phs000007.v29.pht003316.v6.p10.c2.vr_survcvd_2014_a_1023s.HMB-IRB-NPU-MDS.txt", sep = "\t", header = TRUE)
+#CHF.whole_c2 = read.table("data/CVD/phs000007.v29.pht003316.v6.p10.c2.vr_survcvd_2014_a_1023s.HMB-IRB-NPU-MDS.txt", sep = "\t", header = TRUE)
 # before stroke
 CHF_ex0_17 = CHD.whole_c2[CHF.whole_c2$shareid %in% pheno_c2_ex0_17$shareid, ]
 CHF_before.stroke = (CHF_ex0_17$chfdate <= 13505) & (CHF_ex0_17$chf == 1)
@@ -93,8 +93,8 @@ for(i in 1:nrow(Adj)){
 all.male.stat = MoranI(Adj, Total.male$during17.stroke)
 all.male.permute = make.permute.moran(Adj, Total.male$during17.stroke, 500)
 
-all.male.AF.stat = MoranI(Adj, male.residual.AF)
-all.male.AF.permute = make.permute.moran(Adj, male.residual.AF, 500)
+all.male.AF.stat = MoranI(Adj, Total.male$AF)
+all.male.AF.permute = make.permute.moran(Adj, Total.male$AF, 500)
 
 all.male.whole.stat = MoranI(Adj, male.residual.whole)
 all.male.whole.permute = make.permute.moran(Adj, male.residual.whole, 500)
@@ -124,8 +124,8 @@ for(i in 1:nrow(Adj)){
 all.male.60.stat = MoranI(Adj, Total.male.60$during17.stroke)
 all.male.60.permute = make.permute.moran(Adj, Total.male.60$during17.stroke, 500)
 
-all.male.60.AF.stat = MoranI(Adj, male.60.residual.AF)
-all.male.60.AF.permute = make.permute.moran(Adj, male.60.residual.AF, 500)
+all.male.60.AF.stat = MoranI(Adj, Total.male.60$AF)
+all.male.60.AF.permute = make.permute.moran(Adj, Total.male.60$AF, 500)
 
 all.male.60.whole.stat = MoranI(Adj, male.60.residual.whole)
 all.male.60.whole.permute = make.permute.moran(Adj, male.60.residual.whole, 500)
@@ -155,8 +155,8 @@ for(i in 1:nrow(Adj)){
 all.male.70.stat = MoranI(Adj, Total.male.70$during17.stroke)
 all.male.70.permute = make.permute.moran(Adj, Total.male.70$during17.stroke, 500)
 
-all.male.70.AF.stat = MoranI(Adj, male.70.residual.AF)
-all.male.70.AF.permute = make.permute.moran(Adj, male.70.residual.AF, 500)
+all.male.70.AF.stat = MoranI(Adj, Total.male.70$AF)
+all.male.70.AF.permute = make.permute.moran(Adj, Total.male.70$AF, 500)
 
 all.male.70.whole.stat = MoranI(Adj, male.70.residual.whole)
 all.male.70.whole.permute = make.permute.moran(Adj, male.70.residual.whole, 500)
@@ -187,8 +187,8 @@ for(i in 1:nrow(Adj)){
 all.male.80.stat = MoranI(Adj, Total.male.80$during17.stroke)
 all.male.80.permute = make.permute.moran(Adj, Total.male.80$during17.stroke, 500)
 
-all.male.80.AF.stat = MoranI(Adj, male.80.residual.AF)
-all.male.80.AF.permute = make.permute.moran(Adj, male.80.residual.AF, 500)
+all.male.80.AF.stat = MoranI(Adj, Total.male.80$AF)
+all.male.80.AF.permute = make.permute.moran(Adj, Total.male.80$AF, 500)
 
 all.male.80.whole.stat = MoranI(Adj, male.80.residual.whole)
 all.male.80.whole.permute = make.permute.moran(Adj, male.80.residual.whole, 500)
@@ -220,8 +220,8 @@ for(i in 1:nrow(Adj)){
 all.female.stat = MoranI(Adj, Total.female$during17.stroke)
 all.female.permute = make.permute.moran(Adj, Total.female$during17.stroke, 500)
 
-all.female.AF.stat = MoranI(Adj, female.residual.AF)
-all.female.AF.permute = make.permute.moran(Adj, female.residual.AF, 500)
+all.female.AF.stat = MoranI(Adj, Total.female$AF)
+all.female.AF.permute = make.permute.moran(Adj, Total.female$AF, 500)
 
 all.female.whole.stat = MoranI(Adj, female.residual.whole)
 all.female.whole.permute = make.permute.moran(Adj, female.residual.whole, 500)
@@ -251,6 +251,9 @@ for(i in 1:nrow(Adj)){
 all.female.60.stat = MoranI(Adj, Total.female.60$during17.stroke)
 all.female.60.permute = make.permute.moran(Adj, Total.female.60$during17.stroke, 500)
 
+all.female.60.AF.stat = MoranI(Adj, Total.female.60$AF)
+all.female.60.AF.permute = make.permute.moran(Adj, Total.female.60$AF, 500)
+
 all.female.60.whole.stat = MoranI(Adj, female.60.residual.whole)
 all.female.60.whole.permute = make.permute.moran(Adj, female.60.residual.whole, 500)
 
@@ -278,6 +281,9 @@ for(i in 1:nrow(Adj)){
 
 all.female.70.stat = MoranI(Adj, Total.female.70$during17.stroke)
 all.female.70.permute = make.permute.moran(Adj, Total.female.70$during17.stroke, 500)
+
+all.female.70.AF.stat = MoranI(Adj, Total.female.70$AF)
+all.female.70.AF.permute = make.permute.moran(Adj, Total.female.70$AF, 500)
 
 all.female.70.whole.stat = MoranI(Adj, female.70.residual.whole)
 all.female.70.whole.permute = make.permute.moran(Adj, female.70.residual.whole, 500)
@@ -308,42 +314,53 @@ for(i in 1:nrow(Adj)){
 all.female.80.stat = MoranI(Adj, Total.female.80$during17.stroke)
 all.female.80.permute = make.permute.moran(Adj, Total.female.80$during17.stroke, 500)
 
+all.female.80.AF.stat = MoranI(Adj, Total.female.80$AF)
+all.female.80.AF.permute = make.permute.moran(Adj, Total.female.80$AF, 500)
+
 all.female.80.whole.stat = MoranI(Adj, female.80.residual.whole)
 all.female.80.whole.permute = make.permute.moran(Adj, female.80.residual.whole, 500)
 
 
 ## male table 
-male.table = matrix(0, nrow = 3, ncol = 5)
-colnames(male.table) = c("Stroke (I)", "Stroke (p-value)" ,"Residual(I)", "Stroke (p-value)", "n")
+male.table = matrix(0, nrow = 3, ncol = 7)
+colnames(male.table) = c("Stroke (I)", "Stroke (p-value)", "AF (I)", "AF (p-value)",
+                  "Residual(I)", "Stroke (p-value)", "n")
 rownames(male.table) = c("60-69", "70-79", "80-89")
 male.table[,1] = c(formatC(all.male.60.permute[1], 2, format = "f"), formatC(all.male.70.permute[1], 2, format = "f"),
                    formatC(all.male.80.permute[1], 2, format = "f"))
 male.table[,2] = c(formatC(all.male.60.permute[3], 3, format = "f"), formatC(all.male.70.permute[3], 3, format = "f"),
                    formatC(all.male.80.permute[3], 3, format = "f")) 
-
-male.table[,3] = c(formatC(all.male.60.whole.permute[1], 2, format = "f"), formatC(all.male.70.whole.permute[1], 2, format = "f"),
+male.table[,3] = c(formatC(all.male.60.AF.permute[1], 2, format = "f"), formatC(all.male.70.AF.permute[1], 2, format = "f"),
+                   formatC(all.male.80.AF.permute[1], 2, format = "f"))
+male.table[,4] = c(formatC(all.male.60.AF.permute[3], 3, format = "f"), formatC(all.male.70.AF.permute[3], 3, format = "f"),
+                   formatC(all.male.80.AF.permute[3], 3, format = "f")) 
+male.table[,5] = c(formatC(all.male.60.whole.permute[1], 2, format = "f"), formatC(all.male.70.whole.permute[1], 2, format = "f"),
                    formatC(all.male.80.whole.permute[1], 2, format = "f"))
-male.table[,4] = c(formatC(all.male.60.whole.permute[3], 3, format = "f"), formatC(all.male.70.whole.permute[3], 3, format = "f"),
+male.table[,6] = c(formatC(all.male.60.whole.permute[3], 3, format = "f"), formatC(all.male.70.whole.permute[3], 3, format = "f"),
                    formatC(all.male.80.whole.permute[3], 3, format = "f")) 
 
-male.table[,5] = c(nrow(Total.male.60), nrow(Total.male.70), nrow(Total.male.80))
+male.table[,7] = c(nrow(Total.male.60), nrow(Total.male.70), nrow(Total.male.80))
 
 print(xtable(male.table))
 
 ## female table 
-female.table = matrix(0, nrow = 3, ncol = 5)
-colnames(female.table) = c("Stroke (I)", "Stroke (p-value)" ,"Residual(I)", "Stroke (p-value)", "n")
+female.table = matrix(0, nrow = 3, ncol = 7)
+colnames(female.table) = c("Stroke (I)", "Stroke (p-value)", "AF (I)", "AF (p-value)",
+                  "Residual(I)", "Stroke (p-value)", "n")
 rownames(female.table) = c("60-69", "70-79", "80-89")
 female.table[,1] = c(formatC(all.female.60.permute[1], 2, format = "f"), formatC(all.female.70.permute[1], 2, format = "f"),
                    formatC(all.female.80.permute[1], 2, format = "f"))
 female.table[,2] = c(formatC(all.female.60.permute[3], 3, format = "f"), formatC(all.female.70.permute[3], 3, format = "f"),
                    formatC(all.female.80.permute[3], 3, format = "f")) 
-
-female.table[,3] = c(formatC(all.female.60.whole.permute[1], 2, format = "f"), formatC(all.female.70.whole.permute[1], 2, format = "f"),
+female.table[,3] = c(formatC(all.female.60.AF.permute[1], 2, format = "f"), formatC(all.female.70.AF.permute[1], 2, format = "f"),
+                   formatC(all.female.80.AF.permute[1], 2, format = "f"))
+female.table[,4] = c(formatC(all.female.60.AF.permute[3], 3, format = "f"), formatC(all.female.70.AF.permute[3], 3, format = "f"),
+                   formatC(all.female.80.AF.permute[3], 3, format = "f")) 
+female.table[,5] = c(formatC(all.female.60.whole.permute[1], 2, format = "f"), formatC(all.female.70.whole.permute[1], 2, format = "f"),
                    formatC(all.female.80.whole.permute[1], 2, format = "f"))
-female.table[,4] = c(formatC(all.female.60.whole.permute[3], 3, format = "f"), formatC(all.female.70.whole.permute[3], 3, format = "f"),
+female.table[,6] = c(formatC(all.female.60.whole.permute[3], 3, format = "f"), formatC(all.female.70.whole.permute[3], 3, format = "f"),
                    formatC(all.female.80.whole.permute[3], 3, format = "f")) 
 
-female.table[,5] = c(nrow(Total.female.60), nrow(Total.female.70), nrow(Total.female.80))
+female.table[,7] = c(nrow(Total.female.60), nrow(Total.female.70), nrow(Total.female.80))
 
 print(xtable(female.table))

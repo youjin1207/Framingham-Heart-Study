@@ -240,6 +240,15 @@ sibling.Adj.logit.wave3 = Adj
 sibling.logit.wave3 = make.permute.moran(Adj, logit.fit$residuals, 500)
 logit.n.wave3 = nrow(wave3.data.onepair.logit)
 
+
+sibling.wave3.ego.obesity.previous = make.permute.moran(Adj, wave3.data.onepair$ego.obesity.previous, 500)
+sibling.wave3.alter.obesity.previous = make.permute.moran(Adj, wave3.data.onepair$alter.obesity.previous, 500)
+sibling.wave3.alter.obesity.previous2 = make.permute.moran(Adj, wave3.data.onepair$alter.obesity.previous2, 500)
+sibling.wave3.alter.obesity.previous = make.permute.moran(Adj, wave3.data.onepair$alter.obesity.previous, 500)
+sibling.wave3.age = make.permute.moran(Adj, wave3.data.onepair$age.current, 500)
+sibling.wave3.sex = make.permute.moran(Adj, wave3.data.onepair$sex, 500)
+sibling.wave3.edu = make.permute.moran(Adj, wave3.data.onepair$edu, 500)
+
 ### visualization ###
 ## applied to binary obesity status 
 igraph.options(vertex.size = 3, edge.arrow.size = 0.1,

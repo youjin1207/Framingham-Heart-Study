@@ -271,6 +271,9 @@ Male.model3 = MoranI(Adj, male.residual.ageBMIBlood)
 
 Male.mass.permute = make.permute.moran(Adj, Total.male.eli$adjusted.mass, 500)
 Male.BMI.permute = make.permute.moran(Adj, Total.male.eli$BMI, 500)
+Male.age.permute = make.permute.moran(Adj, Total.male.eli$age, 500)
+Male.systolic.permute = make.permute.moran(Adj, Total.male.eli$systolic, 500)
+
 Male.model1.permute = make.permute.moran(Adj, male.residual.BMI, 500)
 Male.model2.permute = make.permute.moran(Adj, male.residual.ageBMI, 500)
 Male.model3.permute = make.permute.moran(Adj, male.residual.ageBMIBlood, 500)
@@ -314,6 +317,9 @@ Female.model3 = MoranI(Adj, female.residual.ageBMIBlood)
 
 Female.mass.permute = make.permute.moran(Adj, Total.female.eli$adjusted.mass, 500)
 Female.BMI.permute = make.permute.moran(Adj, Total.female.eli$BMI, 500)
+Female.age.permute = make.permute.moran(Adj, Total.female.eli$age, 500)
+Female.systolic.permute = make.permute.moran(Adj, Total.female.eli$systolic, 500)
+
 Female.model1.permute = make.permute.moran(Adj, female.residual.BMI, 500)
 Female.model2.permute = make.permute.moran(Adj, female.residual.ageBMI, 500)
 Female.model3.permute = make.permute.moran(Adj, female.residual.ageBMIBlood, 500)

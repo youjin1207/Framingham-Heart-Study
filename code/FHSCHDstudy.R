@@ -61,6 +61,7 @@ for(i in 1:nrow(Adj)){
 }
 result = glm(CHD ~ HDL, family=binomial(link='logit'), data = Total.male.nona)
 male.resi = make.permute.moran(Adj, result$residual, 500)
+male.hdl = make.permute.moran(Adj, Total.male.nona$HDL, 500)
 male.resi.n = nrow(Adj)
 
 ## female
@@ -91,11 +92,12 @@ for(i in 1:nrow(Adj)){
   Adj[friends2, i ] = 1
 }
 result = glm(CHD ~ HDL, family=binomial(link='logit'), data = Total.female.nona)
+female.hdl = make.permute.moran(Adj, Total.female.nona$HDL, 500)
 female.resi = make.permute.moran(Adj, result$residual, 500)
 female.resi.n = nrow(Adj)
 
 ## make a table
-tab = matrix(0, nrow = 4, ncol = 4)
+tab = matrix(0, nrow = 6, ncol = 4)
 colnames(tab) = c("Sex", "n", "Moran's I", "P-value")
 tab[1,] = c("Male", male.chd.n,
             formatC(male.chd[1], 2, format = "f"), 
@@ -104,9 +106,15 @@ tab[2,] = c("Female", female.chd.n,
             formatC(female.chd[1], 2, format = "f"), 
             formatC(female.chd[3], 3, format = "f"))
 tab[3,] = c("Male", male.resi.n,
+            formatC(male.hdl[1], 2, format = "f"), 
+            formatC(male.hdl[3], 3, format = "f"))
+tab[4,] = c("Female", female.resi.n,
+            formatC(female.hdl[1], 2, format = "f"), 
+            formatC(female.hdl[3], 3, format = "f"))
+tab[5,] = c("Male", male.resi.n,
             formatC(male.resi[1], 2, format = "f"), 
             formatC(male.resi[3], 3, format = "f"))
-tab[4,] = c("Female", female.resi.n,
+tab[6,] = c("Female", female.resi.n,
             formatC(female.resi[1], 2, format = "f"), 
             formatC(female.resi[3], 3, format = "f"))
 print(xtable(tab))

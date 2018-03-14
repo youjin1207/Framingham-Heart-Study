@@ -12,7 +12,7 @@ source("MoranI.R")
 network = network_c1[ (network_c1$SPELLBEGIN <= 12*12) & (network_c1$SPELLEND > 9*12),  ]
 
 ##CVD outcome
-CVD.whole_c1 = read.table("data/CVD/phs000007.v29.pht003316.v6.p10.c1.vr_survcvd_2014_a_1023s.HMB-IRB-MDS.txt", sep = "\t", header = TRUE)
+#CVD.whole_c1 = read.table("data/CVD/phs000007.v29.pht003316.v6.p10.c1.vr_survcvd_2014_a_1023s.HMB-IRB-MDS.txt", sep = "\t", header = TRUE)
 
 before16.chd = (CVD.whole_c1$chddate < 11315) & (CVD.whole_c1$chd == 1)
 during16.chd = (CVD.whole_c1$chddate >= 11315) & (CVD.whole_c1$chddate < 12775) & (CVD.whole_c1$chd == 1)
@@ -43,7 +43,7 @@ colnames(CVD_ex1_2)[8:9] = c("eligible", "event")
 
 
 ## age/sex
-age.whole_c1 = read.table("data/age/phs000007.v29.pht003099.v4.p10.c1.vr_dates_2014_a_0912s.HMB-IRB-MDS.txt", sep = "\t", header = TRUE)
+#age.whole_c1 = read.table("data/age/phs000007.v29.pht003099.v4.p10.c1.vr_dates_2014_a_0912s.HMB-IRB-MDS.txt", sep = "\t", header = TRUE)
 age.whole_c1 = as.data.frame(age.whole_c1)
 age_c1 = as.data.frame(cbind(age.whole_c1$shareid, age.whole_c1$sex, age.whole_c1$age1))
 colnames(age_c1) = c("shareid", "sex", "age1")
@@ -300,7 +300,8 @@ for(i in 1:nrow(Adj)){
 
 male.cvd = make.permute.moran(Adj, Total.male.old.eli$during16.cvd, 500)
 male.resi = make.permute.moran(Adj, male.residual, 500)
-dim(Adj)
+male.lvm = make.permute.moran(Adj, Total.male.old.eli$adjusted.mass, 500)
+
 
 ## famale
 Total.female = Total[Total$sex == 2, ] 
@@ -324,15 +325,16 @@ for(i in 1:nrow(Adj)){
 
 female.cvd = make.permute.moran(Adj, Total.female.old.eli$during16.cvd, 500)
 female.resi = make.permute.moran(Adj, female.residual, 500)
-dim(Adj)
+female.lvm = make.permute.moran(Adj, Total.female.old.eli$adjusted.mass, 500)
+
 
 ###
-tab = matrix(0, nrow = 4, ncol = 4)
+tab = matrix(0, nrow = 6, ncol = 4)
 colnames(tab) = c("Sex", "Y", "Moran's I", "P-value")
-tab[,1] = c("Male", "Female", "Male", "Female")
-tab[,2] = c(rep("Incidence of CVD",2), rep("Residuals",2))
-aa = c(male.cvd[1], female.cvd[1], male.resi[1], female.resi[1])
-bb = c(male.cvd[3], female.cvd[3], male.resi[3], female.resi[3])
+tab[,1] = c("Male", "Female", "Male", "Female", "Male", "Female")
+tab[,2] = c(rep("Incidence of CVD",2), rep("LVM",2), rep("Residuals",2))
+aa = c(male.cvd[1], female.cvd[1], male.lvm[1], female.lvm[1], male.resi[1], female.resi[1])
+bb = c(male.cvd[3], female.cvd[3], male.lvm[1], female.lvm[1], male.resi[3], female.resi[3])
 tab[,3] = formatC(aa, 2, format = "f")
 tab[,4] = formatC(bb, 3, format = "f")
 print(xtable(tab))

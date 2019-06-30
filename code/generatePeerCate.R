@@ -36,9 +36,9 @@ nominal_peer_influence = function(A, time_point, mprob, multip){
       }else{
         temp = table(A[1:popn,i]*outcome[t-1,1:popn])[-1]
         if(length(temp) == 0){
-        	outcome[t,i] = outcome[(t-1), i]
+          outcome[t,i] = outcome[(t-1), i]
         }else{
-        outcome[t,i] = as.integer(names(temp)[temp == max(temp)])[1]
+          outcome[t,i] =  sample(outcome[(t-1),which(A[i,] == 1)] ,1)  
         }
       }
         

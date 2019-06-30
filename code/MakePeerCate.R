@@ -26,7 +26,7 @@ PeerCate = foreach(mm = 1:500, .packages = c('igraph', 'parallel')) %dopar% {
   # First of all, create a dependence space
   A = latent_space_peer(popn)
   
-  outcome = nominal_peer_influence(A, c(0,1,2,3), 0.20, c(0.1, 0.2, 0.3, 0.25, 0.15))
+  outcome = nominal_peer_influence(A, c(0,1,2,3), 0.40, c(0.1, 0.2, 0.3, 0.25, 0.15))
   
   # save the outcomes for each time point
   result.t0 = make.permute.Phi(A, outcome[1,], np)

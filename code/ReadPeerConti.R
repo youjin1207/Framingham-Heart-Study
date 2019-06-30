@@ -142,3 +142,18 @@ summary_peer_conti = as.data.frame(summary_peer_conti)
 print(xtable(summary_peer_conti , digits = 2, row.names = TRUE))
 
 
+## bias & se table
+average.bias = c(mean(apply(outcome0, 1, mean)), mean(apply(outcome1, 1, mean)),
+                 mean(apply(outcome2, 1, mean)), mean(apply(outcome3, 1, mean)))
+average.absbias = c(mean(abs(apply(outcome0, 1, mean))), mean(abs(apply(outcome1, 1, mean))),
+                    mean(abs(apply(outcome2, 1, mean))), mean(abs(apply(outcome3, 1, mean))))
+mean.se = c(mean(apply(outcome0, 1, sd)/sqrt(200)),
+            mean(apply(outcome1, 1, sd)/sqrt(200)),
+            mean(apply(outcome2, 1, sd)/sqrt(200)),
+            mean(apply(outcome3, 1, sd)/sqrt(200)))
+se.replicate = c(sd(apply(outcome0, 1, mean)), sd(apply(outcome1, 1, mean)),
+                 sd(apply(outcome2, 1, mean)), sd(apply(outcome3, 1, mean)))
+
+mat = rbind(average.bias, average.absbias, mean.se, se.replicate)
+xtable(mat, digits = 3)
+

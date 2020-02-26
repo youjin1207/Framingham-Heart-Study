@@ -13,20 +13,21 @@ disease, other health outcomes, and peer influence using FHS data may suffer fro
 All table and figures from our [paper](https://arxiv.org/pdf/1908.00520.pdf) can be reproducible by implementing following `R` code.
 
 
-Code                      Data                      Figure        Table
-----------------------    ----------------          ----------    -----------------------------
-code/ReadPeerConti.R      data/PeerConti.RData      Figure 2      Table 1         
-code/ReadLatentConti.R    data/LatentConti.RData    Figure A1                
-code/sim2.R                                         Figure 3      Table 2
-code/sim3.R                                         Figure 1
-code/FHSsim.R                                       Figure 4      Table 3, Table A1
-code/FHSanalysis.R                                  Figure A3     Table 4, Table A2, Table A3       
-code/HRVexample.R                                                 Table 5, Table A4, Table A5
-code/FHSstrokestudy.R                                             Table A6
-code/FHSCHDstudy.R                                                Table A7      
-code/FHSCVDstudy.R                                                Table A8
-code/Mendelian.R                                                  Section A4.3                  
--------------------------------------------------------------------------------------------------
+
+|Code                   | Data                  | Figure    | Table
+|:--------------------: |:---------------------:|:---------:|:----------------------------:
+|code/ReadPeerConti.R   | data/PeerConti.RData  | Figure 2  | Table 1         
+|code/ReadLatentConti.R | data/LatentConti.RData| Figure A1 |               
+|code/sim2.R            |                       | Figure 3  | Table 2
+|code/sim3.R            |                       | Figure 1  |
+|code/FHSsim.R          |                       | Figure 4  | Table 3, Table A1
+|code/FHSanalysis.R     |                       | Figure A3 | Table 4, Table A2, Table A3
+|code/HRVexample.R      |                       |           | Table 5, Table A4, Table A5
+|code/FHSstrokestudy.R  |                       |           | Table A6
+|code/FHSCHDstudy.R     |                       |           | Table A7      
+|code/FHSCVDstudy.R     |                       |           | Table A8
+|code/Mendelian.R       |                       |           | Section A4.3                  
+
 
 We also created the [`netdep`](https://github.com/youjin1207/netdep) `R` package available at [CRAN](https://cran.r-project.org/web/packages/netdep/index.html). 
 
